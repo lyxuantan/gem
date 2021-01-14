@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>View User</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+</head>
+<body>
+<div class="container">
+<h2 style="text-align: center">LIST RESULT</h2>
+<h3 style="color: red" th:text="${MSG}"></h3><p><a class="btn btn-primary" href="/list">Back</a></p></a>
+
+
+<p><label th:text="'Hello: '+ ${session.USERNAME}"></label></p><a href="/logout">logout</a>
+<table class="table table-bordered">
+    <thead>
+    <tr>
+        <th>Status</th>
+        <th>UserName</th>
+        <th>FullName</th>
+        <th>BirthDay</th>
+        <th>Gender</th>
+        <th>Create Time</th>
+        <th>Update Time</th>
+        <th>Action</th>
+
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="item : ${USERS}">
+        <td><a class="btn btn-primary btn-sm" th:href="@{'/edit/status/'+${item.id}}" th:text="${item.status}"></a>
+        </td>
+        <td th:text="${item.username}"></td>
+        <td th:text="${item.fullname}"></td>
+        <td th:text="${item.dob}"></td>
+        <td><span th:text="${item.gender} ? 'Nam' : 'Nữ'"></span></td>
+        <td th:text="${item.createTime}"></td>
+        <td th:text="${item.updateTime}"></td>
+        <td><a class="btn btn-primary btn-sm" th:href="@{'/edit/'+${item.id}}"><i class=" glyphicon glyphicon-user"></i></a>
+            <a class="btn btn-danger btn-sm" th:href="@{'/delete/'+${item.id}}"><i class="fa fa-trash"></i></a></td>
+
+
+    </tr>
+
+
+    </tbody>
+</table>
+</div>
+
+</body>
+</html>

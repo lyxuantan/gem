@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+
+    <title>Update Status</title>
+</head>
+<body>
+
+<div class="container" style="margin-top: 10px;">
+    <div class="row"
+         style="border: 1px darkgrey solid; border-radius: 10px; width: 200px; margin: 0 auto; padding: 20px;">
+        <div class="col-sm-6" style="">
+
+            <h2 style="text-align: center">Change Status</h2>
+            <span style="text-align: center" th:text="${MSG}"></span>
+<form th:action="@{/update/status/{id}(id=${USER.id})}" th:object="${USER}" method="post" style="text-align: center;">
+
+    <select class="form-control" name="status">
+       <option th:each="colorOpt : ${T(com.example.session03.constant.UserStatus).values()}"
+                th:value="${colorOpt}" th:text="${colorOpt}"></option>
+
+    </select>
+
+
+    <input name="add" class="btn btn-primary" type="submit" value="change" style="color: #57b846">
+
+
+</form>
+            </form>
+        </div>
+    </div>
+</div>
+</body>
+</html>

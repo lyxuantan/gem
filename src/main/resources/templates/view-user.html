@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>JSP Page</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet"
+              href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    </head>
+    <title>View User</title>
+</head>
+<body>
+<nav class="navbar navbar-inverse" style="color: ">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="#" th:text="'Hello: '+ ${session.USERNAME}"></a>
+        </div>
+        <div class="collapse navbar-collapse" id="myNavbar">
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/logout"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+
+            </ul>
+
+        </div>
+    </div>
+</nav>
+
+
+
+</div>
+
+<div class="container">
+
+    <h3 style="color: red" th:text="${MSG}"></h3>
+
+    <p><a class="btn btn-primary" href="/">ADD USER</a></p>
+    <form th:action="@{/search}" style="float: left">
+        <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" required/>
+        &nbsp;
+        <input type="submit" value="Search"/>
+        &nbsp;
+        <input type="button" value="Clear" id="btnClear" onclick="clearSearch()"/>
+    </form>
+    <form th:action="@{/users/export/excel}" method="get"><input type="submit" value="Export"/></form>
+    <hr>
+    <div style="height: 350px;">
+        <table class="table table-bordered">
+            <thead>
+            <tr>
+                <th>Status</th>
+                <th>Photo</th>
+                <th>UserName</th>
+                <th>FullName</th>
+                <th>BirthDay</th>
+                <th>Gender</th>
+                <th>Create Time</th>
+                <th>Update Time</th>
+                <th>Action</th>
+
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="item : ${USERS}">
+                <td><a class="btn btn-primary btn-sm" th:href="@{'/edit/status/'+${item.id}}"
+                       th:text="${item.status}"></a>
+                </td>
+                <td><a th:href="@{'/user-photos/'+${item.id}+'/'+${item.photos}}"><img
+                        th:src="@{'/user-photos/'+${item.id}+'/'+${item.photos}}" alt=""
+                        style="width: 80px;height: 100px"/></a></td>
+                <td th:text="${item.username}"></td>
+                <td th:text="${item.fullname}"></td>
+                <td th:text="${item.dob}"></td>
+                <td><span th:text="${item.gender} ? 'Nam' : 'Nữ'"></span></td>
+                <td th:text="${item.createTime}"></td>
+                <td th:text="${item.updateTime}"></td>
+                <td><a class="btn btn-primary btn-sm" th:href="@{'/edit/'+${item.id}}"><i
+                        class=" glyphicon glyphicon-user"></i></a>
+                    <a class="btn btn-danger btn-sm" th:href="@{'/delete/'+${item.id}}"><i class="fa fa-trash"></i></a>
+                </td>
+
+
+            </tr>
+
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <div th:if="${totalPages > 1}">
+        <div class="row col-sm-10">
+            <div class="col-sm-2">
+                <i class="glyphicon glyphicon-user"></i> [[${totalItems}]]
+            </div>
+
+
+            <div class="">
+
+                <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${totalPages}}" style="color:#57b846;">First</a>
+                <span th:unless="${currentPage > 1}">Frist</span>
+                <a th:if="${currentPage > 1}" th:href="@{'/page/' + ${currentPage - 1}}"
+                   style="color:#57b846;">Prevent</a>
+                <span th:unless="${currentPage > 1}">Prevent</span>
+
+
+                <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+
+
+      <a th:if="${currentPage != i}" th:href="@{'/page/' + ${i}}" style="color: #57b846;">[[${i}]]</a>
+      <span th:unless="${currentPage != i}">[[${i}]]</span> &nbsp; &nbsp;
+                    </span>
+
+
+                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${currentPage + 1}}"
+                   style="color:#57b846;">Next</a>
+                <span th:unless="${currentPage < totalPages}">Next</span>
+
+
+                <a th:if="${currentPage < totalPages}" th:href="@{'/page/' + ${totalPages}}"
+                   style="color:#57b846;">Last</a>
+                <span th:unless="${currentPage < totalPages}">Last</span>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/list}]]";
+    }
+</script>
+
+</body>
+</html>
